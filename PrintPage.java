@@ -49,8 +49,21 @@ public class PrintPage extends Application
     layoutComboBox.setValue("Portrait");
     HBox layoutHBox = new HBox(15, layoutLabel, layoutComboBox);
 
+    // Buttons
+    Button printButton = new Button("Print");
+    printButton.setOnAction(event -> {
+      Label checkSettingLabel = new Label("Are these settings correct?");
+      Scene checkSettingsScene = new Scene(checkSettingLabel);
+      primaryStage.setScene(checkSettingsScene);
+    });
+    Button cancelButton = new Button("Cancel");
+    cancelButton.setOnAction(event -> {
+      primaryStage.close();
+    });
+    HBox buttonsHBox = new HBox(10, printButton, cancelButton);
+
     // Vertically align all of the options
-    VBox optionsVBox = new VBox(10, destinationHBox, pagesHBox, copiesHBox, layoutHBox);
+    VBox optionsVBox = new VBox(10, destinationHBox, pagesHBox, copiesHBox, layoutHBox, buttonsHBox);
 
     // Create a scene
     Scene printPageScene = new Scene(optionsVBox);
