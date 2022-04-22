@@ -68,8 +68,6 @@ public class PrintPage extends Application
     // Create a scene
     Scene printPageScene = new Scene(optionsVBox);
 
-
-
     // Set the scene of the stage
     primaryStage.setScene(printPageScene);
 
