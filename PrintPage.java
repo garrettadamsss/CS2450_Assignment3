@@ -64,7 +64,8 @@ public class PrintPage extends Application
   private HashMap<String, String> marginsMap = new HashMap<>();
   private HashMap<String, String> qualityMap = new HashMap<>();
   private HashMap<String, String> scaleMap = new HashMap<>();
-  private HashMap<String, Integer> optionsMap = new HashMap<>();
+  private HashMap<String, Boolean> headersAndFootersMap = new HashMap<>();
+  private HashMap<String, Boolean> backgroundGraphicsMap = new HashMap<>();
 
   // Variables used in the printing feedback screen
   private Label fileLabel = new Label();
@@ -95,7 +96,8 @@ public class PrintPage extends Application
     marginsMap.put("Test", "Minimum");
     qualityMap.put("Test", "1,200 dpi");
     scaleMap.put("Test", "Custom");
-    optionsMap.put("Test", 3);
+    headersAndFootersMap.put("Test", true);
+    backgroundGraphicsMap.put("Test", true);
 
     // Preset option
     Label presetOptionLabel = new Label("Preset");
@@ -116,19 +118,8 @@ public class PrintPage extends Application
         marginsComboBox.setValue(marginsMap.get(presetName));
         qualityComboBox.setValue(qualityMap.get(presetName));
         scaleComboBox.setValue(scaleMap.get(presetName));
-        if (optionsMap.get(presetName) == 0) {
-          headersAndFootersCheckBox.setSelected(false);
-          backgroundGraphicsCheckBox.setSelected(false);
-        } else if (optionsMap.get(presetName) == 1) {
-          headersAndFootersCheckBox.setSelected(true);
-          backgroundGraphicsCheckBox.setSelected(false);
-        } else if (optionsMap.get(presetName) == 2) {
-          headersAndFootersCheckBox.setSelected(false);
-          backgroundGraphicsCheckBox.setSelected(true);
-        } else if (optionsMap.get(presetName) == 3) {
-          headersAndFootersCheckBox.setSelected(true);
-          backgroundGraphicsCheckBox.setSelected(true);
-        }
+        headersAndFootersCheckBox.setSelected(headersAndFootersMap.get(presetName));
+        backgroundGraphicsCheckBox.setSelected(backgroundGraphicsMap.get(presetName));
       }
     });
     HBox presetHBox = new HBox(15, presetOptionLabel, presetComboBox);
@@ -303,7 +294,21 @@ public class PrintPage extends Application
     Button saveButton = new Button("Save");
     saveButton.setOnAction(event -> {
       if (!presetTextField.getText().equals("")) {
-        presetComboBox.getItems().addAll(presetTextField.getText());
+        // Add the preset name to the combo box and save the settings in the hashmaps
+        String presetName = presetTextField.getText();
+        presetComboBox.getItems().addAll(presetName);
+        destinationMap.put(presetName, destinationComboBox.getValue());
+        pagesMap.put(presetName, pagesComboBox.getValue());
+        copiesMap.put(presetName, copiesSpinner.getValue());
+        layoutMap.put(presetName, layoutComboBox.getValue());
+        twoSidedMap.put(presetName, printOnBothSidesCheckBox.isSelected());
+        paperSizeMap.put(presetName, paperSizeComboBox.getValue());
+        pagesPerSheetMap.put(presetName, pagesPerSheetComboBox.getValue());
+        marginsMap.put(presetName, marginsComboBox.getValue());
+        qualityMap.put(presetName, qualityComboBox.getValue());
+        scaleMap.put(presetName, scaleComboBox.getValue());
+        headersAndFootersMap.put(presetName, headersAndFootersCheckBox.isSelected());
+        backgroundGraphicsMap.put(presetName, backgroundGraphicsCheckBox.isSelected());
       }
       primaryStage.setScene(printPageScene);
     });
