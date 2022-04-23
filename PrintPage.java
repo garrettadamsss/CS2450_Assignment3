@@ -1,6 +1,7 @@
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
+import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -28,10 +29,16 @@ public class PrintPage extends Application
   Label twoSidedLabel = new Label();
   Label optionsLabel = new Label();
 
+  // All of the pages of the interface
   Scene printPageScene = new Scene(new Label());
   Scene savePresetScene = new Scene(new Label());
   Scene checkSettingsScene = new Scene(new Label());
   Scene printingFeedbackScene = new Scene(new Label());
+
+  // Variables used in the printing feedback screen
+  Label fileLabel = new Label();
+  Label statusLabel = new Label();
+  Label pageLabel = new Label();
 
   public static void main(String[] args) 
   {
@@ -43,6 +50,8 @@ public class PrintPage extends Application
   public void start(Stage primaryStage)
   {
     // Print Screen
+
+    // TODO: Add a presets option
 
     // Destination option
     // TODO: Show whether the selected option is connected or not
@@ -192,6 +201,20 @@ public class PrintPage extends Application
     confirmButton.setOnAction(event -> {
       // Change to the printing feedback page
       primaryStage.setScene(printingFeedbackScene);
+
+      // Update the printing feedback screen based on which page is being printed
+      PauseTransition pauseTransition1 = new PauseTransition(Duration.seconds(1.5));
+      pauseTransition1.setOnFinished(e -> {
+        pageLabel.setText("1/2");
+      });
+      pauseTransition1.play();
+      PauseTransition pauseTransition2 = new PauseTransition(Duration.seconds(3));
+      pauseTransition2.setOnFinished(e -> {
+        pageLabel.setText("2/2");
+        statusLabel.setText("completed");
+      });
+      pauseTransition2.play();
+      
     });
     Button confirmCancelButton = new Button("Cancel");
     confirmCancelButton.setOnAction(event -> {
@@ -224,15 +247,25 @@ public class PrintPage extends Application
 
     // Printing Feedback Screen
 
-    Label printingFeedbackLabel = new Label("Printing Feedback Screen");
-    // TODO: Add functionality with timer to show which page is currently being printer
+    // Labels for the printing feedback screen
+    Label fileHeadingLabel = new Label("File");
+    fileLabel = new Label("lorum ipsum.pdf");
+    VBox fileVBox = new VBox(10, fileHeadingLabel, fileLabel);
+    Label statusHeadingLabel = new Label("Status");
+    statusLabel = new Label("printing");
+    VBox statusVBox = new VBox(10, statusHeadingLabel, statusLabel);
+    Label pageHeadingLabel = new Label("Page");
+    pageLabel = new Label("0/2");
+    VBox pageVBox = new VBox(10, pageHeadingLabel, pageLabel);
+    HBox printFeedBackHBox = new HBox(5, fileVBox, statusVBox, pageVBox);
+
     // Buttons
     Button doneButton = new Button("Done");
     doneButton.setOnAction(event -> {
       // Close the window
       primaryStage.close();
     });
-    VBox printingFeedbackVBox = new VBox(10, printingFeedbackLabel, doneButton);
+    VBox printingFeedbackVBox = new VBox(10, printFeedBackHBox, doneButton);
     printingFeedbackScene = new Scene(printingFeedbackVBox, 1000, 200);
   }
 }
