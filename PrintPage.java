@@ -10,12 +10,19 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.TextField;
 
 /**
  * Print Page
  */
 public class PrintPage extends Application 
 {
+  // All of the pages of the interface
+  Scene printPageScene = new Scene(new Label());
+  Scene savePresetScene = new Scene(new Label());
+  Scene checkSettingsScene = new Scene(new Label());
+  Scene printingFeedbackScene = new Scene(new Label());
+
   // Variables for Check Setting Screen
   Label destinationLabel = new Label();
   Label pagesLabel = new Label();
@@ -29,11 +36,8 @@ public class PrintPage extends Application
   Label twoSidedLabel = new Label();
   Label optionsLabel = new Label();
 
-  // All of the pages of the interface
-  Scene printPageScene = new Scene(new Label());
-  Scene savePresetScene = new Scene(new Label());
-  Scene checkSettingsScene = new Scene(new Label());
-  Scene printingFeedbackScene = new Scene(new Label());
+  // Variables used for presets
+  TextField presetTextField = new TextField();
 
   // Variables used in the printing feedback screen
   Label fileLabel = new Label();
@@ -51,7 +55,12 @@ public class PrintPage extends Application
   {
     // Print Screen
 
-    // TODO: Add a presets option
+    // Preset option
+    Label presetOptionLabel = new Label("Preset");
+    ComboBox<String> presetComboBox = new ComboBox<>();
+    presetComboBox.getItems().addAll("None", "Preset 1");
+    presetComboBox.setValue("None");
+    HBox presetHBox = new HBox(15, presetOptionLabel, presetComboBox);
 
     // Destination option
     // TODO: Show whether the selected option is connected or not
@@ -176,7 +185,7 @@ public class PrintPage extends Application
     });
     HBox buttonsHBox = new HBox(10, printButton, savePresetButton, printCancelButton);
     // Vertically align all of the options
-    VBox optionsVBox = new VBox(10, destinationHBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox, paperSizeHBox, pagesPerSheetHBox, marginsHBox, qualityHBox, scaleHBox, optionsHBox, buttonsHBox);
+    VBox optionsVBox = new VBox(10, presetHBox, destinationHBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox, paperSizeHBox, pagesPerSheetHBox, marginsHBox, qualityHBox, scaleHBox, optionsHBox, buttonsHBox);
     // Create a scene for the Print Page
     printPageScene = new Scene(optionsVBox, 1700, 1000);
     // Set the scene of the stage
@@ -229,12 +238,14 @@ public class PrintPage extends Application
 
     // Save Preset Screen
 
-    Label savePresetLabel = new Label("Save Preset Screen");
-    // TODO: Add input for preset name
+    Label savePresetLabel = new Label("Preset Name:");
+    HBox savePresetHBox = new HBox(10, savePresetLabel, presetTextField);
     // Buttons
     Button saveButton = new Button("Save");
     saveButton.setOnAction(event -> {
-      // TODO: Add functionality to save the preset
+      if (!presetTextField.getText().equals("")) {
+        presetComboBox.getItems().addAll(presetTextField.getText());
+      }
       primaryStage.setScene(printPageScene);
     });
     Button cancelButton = new Button("Cancel");
@@ -242,7 +253,7 @@ public class PrintPage extends Application
       primaryStage.setScene(printPageScene);
     });
     HBox savePresetButtonsHBox = new HBox(5, saveButton, cancelButton);
-    VBox savePresetVBox = new VBox(savePresetLabel, savePresetButtonsHBox);
+    VBox savePresetVBox = new VBox(savePresetHBox, savePresetButtonsHBox);
     savePresetScene = new Scene(savePresetVBox, 500, 400);
 
     // Printing Feedback Screen
