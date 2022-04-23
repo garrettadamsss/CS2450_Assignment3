@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
@@ -69,6 +70,53 @@ public class PrintPage extends Application
     layoutComboBox.setValue("Portrait");
     HBox layoutHBox = new HBox(15, layoutOptionLabel, layoutComboBox);
 
+    // Two-sided option
+    Label twoSidedOptionLabel = new Label("Two-Sided");
+    CheckBox printOnBothSidesCheckBox = new CheckBox("Print on both sides");
+    HBox twoSidedHBox = new HBox(15, twoSidedOptionLabel, printOnBothSidesCheckBox);
+
+    // Paper Size option
+    Label paperSizeOptionLabel = new Label("Paper Size");
+    ComboBox<String> paperSizeComboBox = new ComboBox<>();
+    paperSizeComboBox.getItems().addAll("Letter", "Legal", "Executive");
+    paperSizeComboBox.setValue("Letter");
+    HBox paperSizeHBox = new HBox(15, paperSizeOptionLabel, paperSizeComboBox);
+
+    // Pages per Sheet option
+    Label pagesPerSheetOptionLabel = new Label("Pages per Sheet");
+    ComboBox<String> pagesPerSheetComboBox = new ComboBox<>();
+    pagesPerSheetComboBox.getItems().addAll("1", "2", "4", "9", "16");
+    pagesPerSheetComboBox.setValue("1");
+    HBox pagesPerSheetHBox = new HBox(15, pagesPerSheetOptionLabel, pagesPerSheetComboBox);
+    
+    // Margins option
+    Label marginsOptionLabel = new Label("Margins");
+    ComboBox<String> marginsComboBox = new ComboBox<>();
+    marginsComboBox.getItems().addAll("Default", "None", "Minimum", "Custom");
+    marginsComboBox.setValue("Default");
+    HBox marginsHBox = new HBox(15, marginsOptionLabel, marginsComboBox);
+    
+    // Quality option
+    Label qualityOptionLabel = new Label("Quality");
+    ComboBox<String> qualityComboBox = new ComboBox<>();
+    qualityComboBox.getItems().addAll("300 dpi", "600 dpi", "1,200 dpi");
+    qualityComboBox.setValue("600 dpi");
+    HBox qualityHBox = new HBox(15, qualityOptionLabel, qualityComboBox);
+
+    // Scale option
+    Label scaleOptionLabel = new Label("Scale");
+    ComboBox<String> scaleComboBox = new ComboBox<>();
+    scaleComboBox.getItems().addAll("Default", "Custom");
+    scaleComboBox.setValue("Default");
+    HBox scaleHBox = new HBox(15, scaleOptionLabel, scaleComboBox);
+
+    // Options option
+    Label optionsOptionLabel = new Label("Options");
+    CheckBox headersAndFootersCheckBox = new CheckBox("Headers and footers");
+    CheckBox backgroundGraphicsCheckBox = new CheckBox("Background graphics");
+    VBox checkBoxVBox = new VBox(5, headersAndFootersCheckBox, backgroundGraphicsCheckBox);
+    HBox optionsHBox = new HBox(15, optionsOptionLabel, checkBoxVBox);
+
     // Buttons
     Button printButton = new Button("Print");
     printButton.setOnAction(event -> {
@@ -99,7 +147,7 @@ public class PrintPage extends Application
     });
     HBox buttonsHBox = new HBox(10, printButton, savePresetButton, printCancelButton);
     // Vertically align all of the options
-    VBox optionsVBox = new VBox(10, destinationHBox, pagesHBox, copiesHBox, layoutHBox, buttonsHBox);
+    VBox optionsVBox = new VBox(10, destinationHBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox, paperSizeHBox, pagesPerSheetHBox, marginsHBox, qualityHBox, scaleHBox, optionsHBox, buttonsHBox);
     // Create a scene for the Print Page
     printPageScene = new Scene(optionsVBox, 1700, 1000);
     // Set the scene of the stage
