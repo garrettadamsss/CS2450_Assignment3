@@ -18,31 +18,31 @@ import javafx.scene.control.TextField;
 public class PrintPage extends Application 
 {
   // All of the pages of the interface
-  Scene printPageScene = new Scene(new Label());
-  Scene savePresetScene = new Scene(new Label());
-  Scene checkSettingsScene = new Scene(new Label());
-  Scene printingFeedbackScene = new Scene(new Label());
+  private Scene printPageScene = new Scene(new Label());
+  private Scene savePresetScene = new Scene(new Label());
+  private Scene checkSettingsScene = new Scene(new Label());
+  private Scene printingFeedbackScene = new Scene(new Label());
 
   // Variables for Check Setting Screen
-  Label destinationLabel = new Label();
-  Label pagesLabel = new Label();
-  Label copiesLabel = new Label();
-  Label layoutLabel = new Label();
-  Label paperSizeLabel = new Label();
-  Label pagesPerSheetLabel = new Label();
-  Label marginsLabel = new Label();
-  Label qualityLabel = new Label();
-  Label scaleLabel = new Label();
-  Label twoSidedLabel = new Label();
-  Label optionsLabel = new Label();
+  private Label destinationLabel = new Label();
+  private Label pagesLabel = new Label();
+  private Label copiesLabel = new Label();
+  private Label layoutLabel = new Label();
+  private Label paperSizeLabel = new Label();
+  private Label pagesPerSheetLabel = new Label();
+  private Label marginsLabel = new Label();
+  private Label qualityLabel = new Label();
+  private Label scaleLabel = new Label();
+  private Label twoSidedLabel = new Label();
+  private Label optionsLabel = new Label();
 
   // Variables used for presets
-  TextField presetTextField = new TextField();
+  private TextField presetTextField = new TextField();
 
   // Variables used in the printing feedback screen
-  Label fileLabel = new Label();
-  Label statusLabel = new Label();
-  Label pageLabel = new Label();
+  private Label fileLabel = new Label();
+  private Label statusLabel = new Label();
+  private Label pageLabel = new Label();
 
   public static void main(String[] args) 
   {
