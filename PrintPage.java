@@ -26,18 +26,19 @@ public class PrintPage extends Application
   private Scene printingFeedbackScene = new Scene(new Label());
 
   // Variables for Print Page
-  ComboBox<String> destinationComboBox = new ComboBox<>();
-  ComboBox<String> pagesComboBox = new ComboBox<>();
-  Spinner<Integer> copiesSpinner = new Spinner<>(1, 100, 1);
-  ComboBox<String> layoutComboBox = new ComboBox<>();
-  CheckBox printOnBothSidesCheckBox = new CheckBox("Print on both sides");
-  ComboBox<String> paperSizeComboBox = new ComboBox<>();
-  ComboBox<String> pagesPerSheetComboBox = new ComboBox<>();
-  ComboBox<String> marginsComboBox = new ComboBox<>();
-  ComboBox<String> qualityComboBox = new ComboBox<>();
-  ComboBox<String> scaleComboBox = new ComboBox<>();
-  CheckBox headersAndFootersCheckBox = new CheckBox("Headers and footers");
-  CheckBox backgroundGraphicsCheckBox = new CheckBox("Background graphics");
+  private ComboBox<String> presetComboBox = new ComboBox<>();
+  private ComboBox<String> destinationComboBox = new ComboBox<>();
+  private ComboBox<String> pagesComboBox = new ComboBox<>();
+  private Spinner<Integer> copiesSpinner = new Spinner<>(1, 100, 1);
+  private ComboBox<String> layoutComboBox = new ComboBox<>();
+  private CheckBox printOnBothSidesCheckBox = new CheckBox("Print on both sides");
+  private ComboBox<String> paperSizeComboBox = new ComboBox<>();
+  private ComboBox<String> pagesPerSheetComboBox = new ComboBox<>();
+  private ComboBox<String> marginsComboBox = new ComboBox<>();
+  private ComboBox<String> qualityComboBox = new ComboBox<>();
+  private ComboBox<String> scaleComboBox = new ComboBox<>();
+  private CheckBox headersAndFootersCheckBox = new CheckBox("Headers and footers");
+  private CheckBox backgroundGraphicsCheckBox = new CheckBox("Background graphics");
 
   // Variables for Check Setting Screen
   private Label destinationLabel = new Label();
@@ -82,10 +83,25 @@ public class PrintPage extends Application
   public void start(Stage primaryStage)
   {
     // Print Screen
+    createPrintScreen(primaryStage);
 
+    // Check Settings Screen
+    createCheckSettingsPage(primaryStage);
+    
+
+    // Save Preset Screen
+    createSavePresetScreen(primaryStage);
+    
+    // Printing Feedback Screen
+    createPrintingFeedbackScreen(primaryStage);
+    
+  }
+  
+  // Helper function to create the Print Screen
+  public void createPrintScreen(Stage primaryStage) {
+    // Print Screen
 
     // Create test preset
-
     destinationMap.put("Test", "Printer 2");
     pagesMap.put("Test", "Odd pages Only");
     copiesMap.put("Test", 5);
@@ -101,7 +117,6 @@ public class PrintPage extends Application
 
     // Preset option
     Label presetOptionLabel = new Label("Preset");
-    ComboBox<String> presetComboBox = new ComboBox<>();
     presetComboBox.getItems().addAll("None", "Test");
     presetComboBox.setValue("None");
     presetComboBox.setOnAction(event -> {
@@ -129,7 +144,7 @@ public class PrintPage extends Application
     Label destinationOptionLabel = new Label("Destination");
     destinationComboBox.getItems().addAll("Printer 1", "Printer 2", "Save as PDF");
     destinationComboBox.setValue("Printer 1");
-    HBox destinationHBox = new HBox(15, destinationOptionLabel, destinationComboBox); 
+    HBox destinationHBox = new HBox(15, destinationOptionLabel, destinationComboBox);
 
     // Pages option
     Label pagesOptionLabel = new Label("Pages");
@@ -162,13 +177,13 @@ public class PrintPage extends Application
     pagesPerSheetComboBox.getItems().addAll("1", "2", "4", "9", "16");
     pagesPerSheetComboBox.setValue("1");
     HBox pagesPerSheetHBox = new HBox(15, pagesPerSheetOptionLabel, pagesPerSheetComboBox);
-    
+
     // Margins option
     Label marginsOptionLabel = new Label("Margins");
     marginsComboBox.getItems().addAll("Default", "None", "Minimum", "Custom");
     marginsComboBox.setValue("Default");
     HBox marginsHBox = new HBox(15, marginsOptionLabel, marginsComboBox);
-    
+
     // Quality option
     Label qualityOptionLabel = new Label("Quality");
     qualityComboBox.getItems().addAll("300 dpi", "600 dpi", "1,200 dpi");
@@ -235,7 +250,8 @@ public class PrintPage extends Application
     });
     HBox buttonsHBox = new HBox(10, printButton, savePresetButton, printCancelButton);
     // Vertically align all of the options
-    VBox optionsVBox = new VBox(10, presetHBox, destinationHBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox, paperSizeHBox, pagesPerSheetHBox, marginsHBox, qualityHBox, scaleHBox, optionsHBox, buttonsHBox);
+    VBox optionsVBox = new VBox(10, presetHBox, destinationHBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox,
+        paperSizeHBox, pagesPerSheetHBox, marginsHBox, qualityHBox, scaleHBox, optionsHBox, buttonsHBox);
     // Create a scene for the Print Page
     printPageScene = new Scene(optionsVBox, 1700, 1000);
     // Set the scene of the stage
@@ -244,10 +260,10 @@ public class PrintPage extends Application
     primaryStage.setTitle("Print Page");
     // Show the print page's window
     primaryStage.show();
-
-
-    // Check Settings Screen
-
+  }
+  
+  // Helper function to create the check settings page
+  public void createCheckSettingsPage(Stage primaryStage) {
     // Create Title Label
     Label checkSettingLabel = new Label("Are these settings correct?");
     // Create VBox for all the labels for the settings
@@ -273,7 +289,7 @@ public class PrintPage extends Application
         statusLabel.setText("completed");
       });
       pauseTransition2.play();
-      
+
     });
     Button confirmCancelButton = new Button("Cancel");
     confirmCancelButton.setOnAction(event -> {
@@ -285,9 +301,10 @@ public class PrintPage extends Application
     // Create the scene and VBox for the content of the scene
     VBox checkSettingsVBox = new VBox(10, checkSettingLabel, settingsVBox, moreSettingsVBox, confirmButtonsHBox);
     checkSettingsScene = new Scene(checkSettingsVBox, 1000, 500);
+  }
 
-    // Save Preset Screen
-
+  // Helper function to create the save preset screen
+  public void createSavePresetScreen(Stage primaryStage) {
     Label savePresetLabel = new Label("Preset Name:");
     HBox savePresetHBox = new HBox(10, savePresetLabel, presetTextField);
     // Buttons
@@ -319,9 +336,10 @@ public class PrintPage extends Application
     HBox savePresetButtonsHBox = new HBox(5, saveButton, cancelButton);
     VBox savePresetVBox = new VBox(savePresetHBox, savePresetButtonsHBox);
     savePresetScene = new Scene(savePresetVBox, 500, 400);
+  }
 
-    // Printing Feedback Screen
-
+  // Helper function to create the printing feedback screen
+  public void createPrintingFeedbackScreen(Stage primaryStage) {
     // Labels for the printing feedback screen
     Label fileHeadingLabel = new Label("File");
     fileLabel = new Label("lorum ipsum.pdf");
