@@ -45,11 +45,12 @@ public class PrintPage extends Application
     // Print Screen
 
     // Destination option
+    // TODO: Show whether the selected option is connected or not
     Label destinationOptionLabel = new Label("Destination");
     ComboBox<String> destinationComboBox = new ComboBox<>();
     destinationComboBox.getItems().addAll("Printer 1", "Printer 2", "Save as PDF");
     destinationComboBox.setValue("Printer 1");
-    HBox destinationHBox = new HBox(15, destinationOptionLabel, destinationComboBox);
+    HBox destinationHBox = new HBox(15, destinationOptionLabel, destinationComboBox); 
 
     // Pages option
     Label pagesOptionLabel = new Label("Pages");
@@ -120,19 +121,38 @@ public class PrintPage extends Application
     // Buttons
     Button printButton = new Button("Print");
     printButton.setOnAction(event -> {
-      // Change to the confirm settings page
-      // TODO: Add functionality to change the settings text based on user chosen settings
-      destinationLabel.setText("Destination: ");
-      pagesLabel.setText("Pages: ");
-      copiesLabel.setText("Copies: ");
-      layoutLabel.setText("Layout: ");
-      paperSizeLabel.setText("Paper Size: ");
-      pagesPerSheetLabel.setText("Pages per Sheet: ");
-      marginsLabel.setText("Margins: ");
-      qualityLabel.setText("Quality: ");
-      scaleLabel.setText("Scale: ");
-      twoSidedLabel.setText("Two-sided: ");
-      optionsLabel.setText("Options: ");
+      // Change to the confirm settings page based on user selected options
+      // Destination
+      destinationLabel.setText("Destination: " + marginsComboBox.getValue());
+      // Pages
+      pagesLabel.setText("Pages: " + pagesComboBox.getValue());
+      // Copies
+      copiesLabel.setText("Copies: " + copiesSpinner.getValue());
+      // Layout
+      layoutLabel.setText("Layout: " + layoutComboBox.getValue());
+      // Two-sided
+      String twoSidedText = printOnBothSidesCheckBox.isSelected() ? "Print on both sides" : "None";
+      twoSidedLabel.setText("Two-sided: " + twoSidedText);
+      // Paper Size
+      paperSizeLabel.setText("Paper Size: " + paperSizeComboBox.getValue());
+      // Pages per Sheet
+      pagesPerSheetLabel.setText("Pages per Sheet: " + pagesPerSheetComboBox.getValue());
+      // Margins
+      marginsLabel.setText("Margins: " + marginsComboBox.getValue());
+      // Quality
+      qualityLabel.setText("Quality: " + qualityComboBox.getValue());
+      // Scale
+      scaleLabel.setText("Scale: " + scaleComboBox.getValue());
+      // Options
+      String optionsText = "None";
+      if (headersAndFootersCheckBox.isSelected() && backgroundGraphicsCheckBox.isSelected()) {
+        optionsText = "Headers and footers + Background graphics";
+      } else if (headersAndFootersCheckBox.isSelected()) {
+        optionsText = "Headers and footers";
+      } else if (backgroundGraphicsCheckBox.isSelected()) {
+        optionsText = "Background graphics";
+      }
+      optionsLabel.setText("Options: " + optionsText);
       primaryStage.setScene(checkSettingsScene);
     });
     Button savePresetButton = new Button("Save Preset");
