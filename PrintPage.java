@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -23,6 +25,20 @@ public class PrintPage extends Application
   private Scene checkSettingsScene = new Scene(new Label());
   private Scene printingFeedbackScene = new Scene(new Label());
 
+  // Variables for Print Page
+  ComboBox<String> destinationComboBox = new ComboBox<>();
+  ComboBox<String> pagesComboBox = new ComboBox<>();
+  Spinner<Integer> copiesSpinner = new Spinner<>(1, 100, 1);
+  ComboBox<String> layoutComboBox = new ComboBox<>();
+  CheckBox printOnBothSidesCheckBox = new CheckBox("Print on both sides");
+  ComboBox<String> paperSizeComboBox = new ComboBox<>();
+  ComboBox<String> pagesPerSheetComboBox = new ComboBox<>();
+  ComboBox<String> marginsComboBox = new ComboBox<>();
+  ComboBox<String> qualityComboBox = new ComboBox<>();
+  ComboBox<String> scaleComboBox = new ComboBox<>();
+  CheckBox headersAndFootersCheckBox = new CheckBox("Headers and footers");
+  CheckBox backgroundGraphicsCheckBox = new CheckBox("Background graphics");
+
   // Variables for Check Setting Screen
   private Label destinationLabel = new Label();
   private Label pagesLabel = new Label();
@@ -38,6 +54,17 @@ public class PrintPage extends Application
 
   // Variables used for presets
   private TextField presetTextField = new TextField();
+  private HashMap<String, String> destinationMap = new HashMap<>();
+  private HashMap<String, String> pagesMap = new HashMap<>();
+  private HashMap<String, Integer> copiesMap = new HashMap<>();
+  private HashMap<String, String> layoutMap = new HashMap<>();
+  private HashMap<String, Boolean> twoSidedMap = new HashMap<>();
+  private HashMap<String, String> paperSizeMap = new HashMap<>();
+  private HashMap<String, String> pagesPerSheetMap = new HashMap<>();
+  private HashMap<String, String> marginsMap = new HashMap<>();
+  private HashMap<String, String> qualityMap = new HashMap<>();
+  private HashMap<String, String> scaleMap = new HashMap<>();
+  private HashMap<String, Integer> optionsMap = new HashMap<>();
 
   // Variables used in the printing feedback screen
   private Label fileLabel = new Label();
@@ -55,84 +82,116 @@ public class PrintPage extends Application
   {
     // Print Screen
 
+
+    // Create test preset
+
+    destinationMap.put("Test", "Printer 2");
+    pagesMap.put("Test", "Odd pages Only");
+    copiesMap.put("Test", 5);
+    layoutMap.put("Test", "Landscape");
+    twoSidedMap.put("Test", true);
+    paperSizeMap.put("Test", "Executive");
+    pagesPerSheetMap.put("Test", "9");
+    marginsMap.put("Test", "Minimum");
+    qualityMap.put("Test", "1,200 dpi");
+    scaleMap.put("Test", "Custom");
+    optionsMap.put("Test", 3);
+
     // Preset option
     Label presetOptionLabel = new Label("Preset");
     ComboBox<String> presetComboBox = new ComboBox<>();
-    presetComboBox.getItems().addAll("None", "Preset 1");
+    presetComboBox.getItems().addAll("None", "Test");
     presetComboBox.setValue("None");
+    presetComboBox.setOnAction(event -> {
+      // Change settings based on preset name
+      String presetName = presetComboBox.getValue();
+      if (presetName != "None") {
+        destinationComboBox.setValue(destinationMap.get(presetName));
+        pagesComboBox.setValue(pagesMap.get(presetName));
+        copiesSpinner.getValueFactory().setValue(copiesMap.get(presetName));
+        layoutComboBox.setValue(layoutMap.get(presetName));
+        printOnBothSidesCheckBox.setSelected(twoSidedMap.get(presetName));
+        paperSizeComboBox.setValue(paperSizeMap.get(presetName));
+        pagesPerSheetComboBox.setValue(pagesPerSheetMap.get(presetName));
+        marginsComboBox.setValue(marginsMap.get(presetName));
+        qualityComboBox.setValue(qualityMap.get(presetName));
+        scaleComboBox.setValue(scaleMap.get(presetName));
+        if (optionsMap.get(presetName) == 0) {
+          headersAndFootersCheckBox.setSelected(false);
+          backgroundGraphicsCheckBox.setSelected(false);
+        } else if (optionsMap.get(presetName) == 1) {
+          headersAndFootersCheckBox.setSelected(true);
+          backgroundGraphicsCheckBox.setSelected(false);
+        } else if (optionsMap.get(presetName) == 2) {
+          headersAndFootersCheckBox.setSelected(false);
+          backgroundGraphicsCheckBox.setSelected(true);
+        } else if (optionsMap.get(presetName) == 3) {
+          headersAndFootersCheckBox.setSelected(true);
+          backgroundGraphicsCheckBox.setSelected(true);
+        }
+      }
+    });
     HBox presetHBox = new HBox(15, presetOptionLabel, presetComboBox);
 
     // Destination option
     // TODO: Show whether the selected option is connected or not
     Label destinationOptionLabel = new Label("Destination");
-    ComboBox<String> destinationComboBox = new ComboBox<>();
     destinationComboBox.getItems().addAll("Printer 1", "Printer 2", "Save as PDF");
     destinationComboBox.setValue("Printer 1");
     HBox destinationHBox = new HBox(15, destinationOptionLabel, destinationComboBox); 
 
     // Pages option
     Label pagesOptionLabel = new Label("Pages");
-    ComboBox<String> pagesComboBox = new ComboBox<>();
     pagesComboBox.getItems().addAll("All", "Odd pages Only", "Even pages Only", "Custom");
     pagesComboBox.setValue("All");
     HBox pagesHBox = new HBox(15, pagesOptionLabel, pagesComboBox);
 
     // Copies option
     Label copiesOptionLabel = new Label("Copies");
-    Spinner<Integer> copiesSpinner = new Spinner<>(1, 100, 1);
     HBox copiesHBox = new HBox(15, copiesOptionLabel, copiesSpinner);
 
     // Layout option
     Label layoutOptionLabel = new Label("Layout");
-    ComboBox<String> layoutComboBox = new ComboBox<>();
     layoutComboBox.getItems().addAll("Portrait", "Landscape");
     layoutComboBox.setValue("Portrait");
     HBox layoutHBox = new HBox(15, layoutOptionLabel, layoutComboBox);
 
     // Two-sided option
     Label twoSidedOptionLabel = new Label("Two-Sided");
-    CheckBox printOnBothSidesCheckBox = new CheckBox("Print on both sides");
     HBox twoSidedHBox = new HBox(15, twoSidedOptionLabel, printOnBothSidesCheckBox);
 
     // Paper Size option
     Label paperSizeOptionLabel = new Label("Paper Size");
-    ComboBox<String> paperSizeComboBox = new ComboBox<>();
     paperSizeComboBox.getItems().addAll("Letter", "Legal", "Executive");
     paperSizeComboBox.setValue("Letter");
     HBox paperSizeHBox = new HBox(15, paperSizeOptionLabel, paperSizeComboBox);
 
     // Pages per Sheet option
     Label pagesPerSheetOptionLabel = new Label("Pages per Sheet");
-    ComboBox<String> pagesPerSheetComboBox = new ComboBox<>();
     pagesPerSheetComboBox.getItems().addAll("1", "2", "4", "9", "16");
     pagesPerSheetComboBox.setValue("1");
     HBox pagesPerSheetHBox = new HBox(15, pagesPerSheetOptionLabel, pagesPerSheetComboBox);
     
     // Margins option
     Label marginsOptionLabel = new Label("Margins");
-    ComboBox<String> marginsComboBox = new ComboBox<>();
     marginsComboBox.getItems().addAll("Default", "None", "Minimum", "Custom");
     marginsComboBox.setValue("Default");
     HBox marginsHBox = new HBox(15, marginsOptionLabel, marginsComboBox);
     
     // Quality option
     Label qualityOptionLabel = new Label("Quality");
-    ComboBox<String> qualityComboBox = new ComboBox<>();
     qualityComboBox.getItems().addAll("300 dpi", "600 dpi", "1,200 dpi");
     qualityComboBox.setValue("600 dpi");
     HBox qualityHBox = new HBox(15, qualityOptionLabel, qualityComboBox);
 
     // Scale option
     Label scaleOptionLabel = new Label("Scale");
-    ComboBox<String> scaleComboBox = new ComboBox<>();
     scaleComboBox.getItems().addAll("Default", "Custom");
     scaleComboBox.setValue("Default");
     HBox scaleHBox = new HBox(15, scaleOptionLabel, scaleComboBox);
 
     // Options option
     Label optionsOptionLabel = new Label("Options");
-    CheckBox headersAndFootersCheckBox = new CheckBox("Headers and footers");
-    CheckBox backgroundGraphicsCheckBox = new CheckBox("Background graphics");
     VBox checkBoxVBox = new VBox(5, headersAndFootersCheckBox, backgroundGraphicsCheckBox);
     HBox optionsHBox = new HBox(15, optionsOptionLabel, checkBoxVBox);
 
