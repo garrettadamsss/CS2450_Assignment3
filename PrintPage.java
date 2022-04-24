@@ -26,18 +26,19 @@ public class PrintPage extends Application
   private Scene printingFeedbackScene = new Scene(new Label());
 
   // Variables for Print Page
-  ComboBox<String> destinationComboBox = new ComboBox<>();
-  ComboBox<String> pagesComboBox = new ComboBox<>();
-  Spinner<Integer> copiesSpinner = new Spinner<>(1, 100, 1);
-  ComboBox<String> layoutComboBox = new ComboBox<>();
-  CheckBox printOnBothSidesCheckBox = new CheckBox("Print on both sides");
-  ComboBox<String> paperSizeComboBox = new ComboBox<>();
-  ComboBox<String> pagesPerSheetComboBox = new ComboBox<>();
-  ComboBox<String> marginsComboBox = new ComboBox<>();
-  ComboBox<String> qualityComboBox = new ComboBox<>();
-  ComboBox<String> scaleComboBox = new ComboBox<>();
-  CheckBox headersAndFootersCheckBox = new CheckBox("Headers and footers");
-  CheckBox backgroundGraphicsCheckBox = new CheckBox("Background graphics");
+  private ComboBox<String> destinationComboBox = new ComboBox<>();
+  private Label printerConnectionLabel = new Label("Not connected");
+  private ComboBox<String> pagesComboBox = new ComboBox<>();
+  private Spinner<Integer> copiesSpinner = new Spinner<>(1, 100, 1);
+  private ComboBox<String> layoutComboBox = new ComboBox<>();
+  private CheckBox printOnBothSidesCheckBox = new CheckBox("Print on both sides");
+  private ComboBox<String> paperSizeComboBox = new ComboBox<>();
+  private ComboBox<String> pagesPerSheetComboBox = new ComboBox<>();
+  private ComboBox<String> marginsComboBox = new ComboBox<>();
+  private ComboBox<String> qualityComboBox = new ComboBox<>();
+  private ComboBox<String> scaleComboBox = new ComboBox<>();
+  private CheckBox headersAndFootersCheckBox = new CheckBox("Headers and footers");
+  private CheckBox backgroundGraphicsCheckBox = new CheckBox("Background graphics");
 
   // Variables for Check Setting Screen
   private Label destinationLabel = new Label();
@@ -128,8 +129,18 @@ public class PrintPage extends Application
     // TODO: Show whether the selected option is connected or not
     Label destinationOptionLabel = new Label("Destination");
     destinationComboBox.getItems().addAll("Printer 1", "Printer 2", "Save as PDF");
+    destinationComboBox.setOnAction(event -> {
+      if (destinationComboBox.getValue() == "Printer 1") {
+        printerConnectionLabel.setText("Not connected");
+      } else if (destinationComboBox.getValue() == "Printer 2") {
+        printerConnectionLabel.setText("Connected");
+      } else if (destinationComboBox.getValue() == "Save as PDF") {
+        printerConnectionLabel.setText("");
+      }
+    });
     destinationComboBox.setValue("Printer 1");
-    HBox destinationHBox = new HBox(15, destinationOptionLabel, destinationComboBox); 
+    HBox destinationHBox = new HBox(15, destinationOptionLabel, destinationComboBox);
+    VBox printerVBox = new VBox(5, destinationHBox, printerConnectionLabel);
 
     // Pages option
     Label pagesOptionLabel = new Label("Pages");
@@ -189,39 +200,43 @@ public class PrintPage extends Application
     // Buttons
     Button printButton = new Button("Print");
     printButton.setOnAction(event -> {
-      // Change to the confirm settings page based on user selected options
-      // Destination
-      destinationLabel.setText("Destination: " + marginsComboBox.getValue());
-      // Pages
-      pagesLabel.setText("Pages: " + pagesComboBox.getValue());
-      // Copies
-      copiesLabel.setText("Copies: " + copiesSpinner.getValue());
-      // Layout
-      layoutLabel.setText("Layout: " + layoutComboBox.getValue());
-      // Two-sided
-      String twoSidedText = printOnBothSidesCheckBox.isSelected() ? "Print on both sides" : "None";
-      twoSidedLabel.setText("Two-sided: " + twoSidedText);
-      // Paper Size
-      paperSizeLabel.setText("Paper Size: " + paperSizeComboBox.getValue());
-      // Pages per Sheet
-      pagesPerSheetLabel.setText("Pages per Sheet: " + pagesPerSheetComboBox.getValue());
-      // Margins
-      marginsLabel.setText("Margins: " + marginsComboBox.getValue());
-      // Quality
-      qualityLabel.setText("Quality: " + qualityComboBox.getValue());
-      // Scale
-      scaleLabel.setText("Scale: " + scaleComboBox.getValue());
-      // Options
-      String optionsText = "None";
-      if (headersAndFootersCheckBox.isSelected() && backgroundGraphicsCheckBox.isSelected()) {
-        optionsText = "Headers and footers + Background graphics";
-      } else if (headersAndFootersCheckBox.isSelected()) {
-        optionsText = "Headers and footers";
-      } else if (backgroundGraphicsCheckBox.isSelected()) {
-        optionsText = "Background graphics";
+      // Only go to next page if printer is connected
+      if (printerConnectionLabel.getText() == "Connected") {
+        // Change to the confirm settings page based on user selected options
+        // Destination
+        destinationLabel.setText("Destination: " + marginsComboBox.getValue());
+        // Pages
+        pagesLabel.setText("Pages: " + pagesComboBox.getValue());
+        // Copies
+        copiesLabel.setText("Copies: " + copiesSpinner.getValue());
+        // Layout
+        layoutLabel.setText("Layout: " + layoutComboBox.getValue());
+        // Two-sided
+        String twoSidedText = printOnBothSidesCheckBox.isSelected() ? "Print on both sides" : "None";
+        twoSidedLabel.setText("Two-sided: " + twoSidedText);
+        // Paper Size
+        paperSizeLabel.setText("Paper Size: " + paperSizeComboBox.getValue());
+        // Pages per Sheet
+        pagesPerSheetLabel.setText("Pages per Sheet: " + pagesPerSheetComboBox.getValue());
+        // Margins
+        marginsLabel.setText("Margins: " + marginsComboBox.getValue());
+        // Quality
+        qualityLabel.setText("Quality: " + qualityComboBox.getValue());
+        // Scale
+        scaleLabel.setText("Scale: " + scaleComboBox.getValue());
+        // Options
+        String optionsText = "None";
+        if (headersAndFootersCheckBox.isSelected() && backgroundGraphicsCheckBox.isSelected()) {
+          optionsText = "Headers and footers + Background graphics";
+        } else if (headersAndFootersCheckBox.isSelected()) {
+          optionsText = "Headers and footers";
+        } else if (backgroundGraphicsCheckBox.isSelected()) {
+          optionsText = "Background graphics";
+        }
+        optionsLabel.setText("Options: " + optionsText);
+        primaryStage.setScene(checkSettingsScene);
       }
-      optionsLabel.setText("Options: " + optionsText);
-      primaryStage.setScene(checkSettingsScene);
+
     });
     Button savePresetButton = new Button("Save Preset");
     savePresetButton.setOnAction(event -> {
@@ -235,7 +250,7 @@ public class PrintPage extends Application
     });
     HBox buttonsHBox = new HBox(10, printButton, savePresetButton, printCancelButton);
     // Vertically align all of the options
-    VBox optionsVBox = new VBox(10, presetHBox, destinationHBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox, paperSizeHBox, pagesPerSheetHBox, marginsHBox, qualityHBox, scaleHBox, optionsHBox, buttonsHBox);
+    VBox optionsVBox = new VBox(10, presetHBox, printerVBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox, paperSizeHBox, pagesPerSheetHBox, marginsHBox, qualityHBox, scaleHBox, optionsHBox, buttonsHBox);
     // Create a scene for the Print Page
     printPageScene = new Scene(optionsVBox, 1700, 1000);
     // Set the scene of the stage
