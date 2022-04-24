@@ -7,6 +7,8 @@ import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -27,6 +29,7 @@ public class PrintPage extends Application
 
   // Variables for Print Page
   private ComboBox<String> destinationComboBox = new ComboBox<>();
+  private Circle printerConnectionCircle = new Circle(5);
   private Label printerConnectionLabel = new Label("Not connected");
   private ComboBox<String> pagesComboBox = new ComboBox<>();
   private Spinner<Integer> copiesSpinner = new Spinner<>(1, 100, 1);
@@ -126,21 +129,27 @@ public class PrintPage extends Application
     HBox presetHBox = new HBox(15, presetOptionLabel, presetComboBox);
 
     // Destination option
-    // TODO: Show whether the selected option is connected or not
     Label destinationOptionLabel = new Label("Destination");
     destinationComboBox.getItems().addAll("Printer 1", "Printer 2", "Save as PDF");
     destinationComboBox.setOnAction(event -> {
       if (destinationComboBox.getValue() == "Printer 1") {
         printerConnectionLabel.setText("Not connected");
+        printerConnectionCircle.setRadius(5);
+        printerConnectionCircle.setFill(Color.RED);
       } else if (destinationComboBox.getValue() == "Printer 2") {
         printerConnectionLabel.setText("Connected");
+        printerConnectionCircle.setRadius(5);
+        printerConnectionCircle.setFill(Color.GREEN);
       } else if (destinationComboBox.getValue() == "Save as PDF") {
         printerConnectionLabel.setText("");
+        printerConnectionCircle.setRadius(0);
       }
     });
     destinationComboBox.setValue("Printer 1");
+    printerConnectionCircle.setFill(Color.RED);
     HBox destinationHBox = new HBox(15, destinationOptionLabel, destinationComboBox);
-    VBox printerVBox = new VBox(5, destinationHBox, printerConnectionLabel);
+    HBox printerConnectionHBox = new HBox(5, printerConnectionCircle, printerConnectionLabel);
+    VBox printerVBox = new VBox(5, destinationHBox, printerConnectionHBox);
 
     // Pages option
     Label pagesOptionLabel = new Label("Pages");
