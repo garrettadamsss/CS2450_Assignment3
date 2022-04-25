@@ -51,6 +51,7 @@ public class PrintPage extends Application
   private ComboBox<String> scaleComboBox = new ComboBox<>();
   private CheckBox headersAndFootersCheckBox = new CheckBox("Headers and footers");
   private CheckBox backgroundGraphicsCheckBox = new CheckBox("Background graphics");
+  private Button printButton;
 
   // Variables for Check Setting Screen
   private Label destinationLabel = new Label();
@@ -160,10 +161,12 @@ public class PrintPage extends Application
         printerConnectionLabel.setText("Not connected");
         printerConnectionCircle.setRadius(5);
         printerConnectionCircle.setFill(Color.RED);
+        printButton.setId("");
       } else if (destinationComboBox.getValue() == "Printer 2") {
         printerConnectionLabel.setText("Connected");
         printerConnectionCircle.setRadius(5);
         printerConnectionCircle.setFill(Color.GREEN);
+        printButton.setId("print-button");
       } else if (destinationComboBox.getValue() == "Save as PDF") {
         printerConnectionLabel.setText("");
         printerConnectionCircle.setRadius(0);
@@ -265,7 +268,7 @@ public class PrintPage extends Application
     optionsHBox.setAlignment(Pos.CENTER);
 
     // Buttons
-    Button printButton = new Button("Print");
+    printButton = new Button("Print");
     printButton.setOnAction(event -> {
       // Only go to next page if printer is connected
       if (printerConnectionLabel.getText() == "Connected") {
@@ -306,6 +309,7 @@ public class PrintPage extends Application
 
     });
     Button savePresetButton = new Button("Save Preset");
+    savePresetButton.getStyleClass().addAll("save-button");
     savePresetButton.setOnAction(event -> {
       // Change to the save preset page
       primaryStage.setScene(savePresetScene);
@@ -354,6 +358,7 @@ public class PrintPage extends Application
         twoSidedLabel, optionsLabel);
     // Create buttons
     Button confirmButton = new Button("Confirm");
+    confirmButton.setId("confirm-button");
     confirmButton.setOnAction(event -> {
       // Change to the printing feedback page
       primaryStage.setScene(printingFeedbackScene);
@@ -382,6 +387,7 @@ public class PrintPage extends Application
     // Create the scene and VBox for the content of the scene
     VBox checkSettingsVBox = new VBox(10, checkSettingLabel, settingsVBox, moreSettingsVBox, confirmButtonsHBox);
     checkSettingsScene = new Scene(checkSettingsVBox, 1000, 500);
+    checkSettingsScene.getStylesheets().add("styles.css");
   }
 
   // Helper function to create the save preset screen
@@ -390,6 +396,7 @@ public class PrintPage extends Application
     HBox savePresetHBox = new HBox(10, savePresetLabel, presetTextField);
     // Buttons
     Button saveButton = new Button("Save");
+    saveButton.getStyleClass().addAll("save-button");
     saveButton.setOnAction(event -> {
       if (!presetTextField.getText().equals("")) {
         // Add the preset name to the combo box and save the settings in the hashmaps
@@ -417,6 +424,7 @@ public class PrintPage extends Application
     HBox savePresetButtonsHBox = new HBox(5, saveButton, cancelButton);
     VBox savePresetVBox = new VBox(savePresetHBox, savePresetButtonsHBox);
     savePresetScene = new Scene(savePresetVBox, 500, 400);
+    savePresetScene.getStylesheets().addAll("styles.css");
   }
 
   // Helper function to create the printing feedback screen
@@ -441,5 +449,6 @@ public class PrintPage extends Application
     });
     VBox printingFeedbackVBox = new VBox(10, printFeedBackHBox, doneButton);
     printingFeedbackScene = new Scene(printingFeedbackVBox, 1000, 150);
+    printingFeedbackScene.getStylesheets().addAll("styles.css");
   }
 }
