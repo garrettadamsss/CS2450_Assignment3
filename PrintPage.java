@@ -1,7 +1,13 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.Scene;
@@ -19,7 +25,7 @@ import javafx.scene.control.TextField;
 /**
  * Print Page
  */
-public class PrintPage extends Application 
+public class PrintPage extends Application
 {
   // All of the pages of the interface
   private Scene printPageScene = new Scene(new Label());
@@ -84,8 +90,7 @@ public class PrintPage extends Application
   }
 
   @Override
-  public void start(Stage primaryStage)
-  {
+  public void start(Stage primaryStage) throws FileNotFoundException {
     // Print Screen
     createPrintScreen(primaryStage);
 
@@ -102,7 +107,7 @@ public class PrintPage extends Application
   }
   
   // Helper function to create the Print Screen
-  public void createPrintScreen(Stage primaryStage) {
+  public void createPrintScreen(Stage primaryStage) throws FileNotFoundException {
     // Print Screen
 
     // Create test preset
@@ -166,6 +171,13 @@ public class PrintPage extends Application
     HBox printerConnectionHBox = new HBox(5, printerConnectionCircle, printerConnectionLabel);
     VBox printerVBox = new VBox(5, destinationHBox, printerConnectionHBox);
 
+    //Print preview
+    FileInputStream inputStream = new FileInputStream("images/Capture.PNG");
+    Image image = new Image(inputStream);
+    ImageView printPreview = new ImageView(image);
+    //printPreview.setPreserveRatio(true);
+    printPreview.setFitHeight(700);
+    printPreview.setFitWidth(600);
     // Pages option
     Label pagesOptionLabel = new Label("Pages");
     pagesComboBox.getItems().addAll("All", "Odd pages Only", "Even pages Only", "Custom");
@@ -272,11 +284,23 @@ public class PrintPage extends Application
       // Close the window
       primaryStage.close();
     });
+    //Create HBox to hold lower buttons
     HBox buttonsHBox = new HBox(10, printButton, savePresetButton, printCancelButton);
-    // Vertically align all of the options
+
+    //Create VBox to contain all buttons
     VBox optionsVBox = new VBox(10, presetHBox, printerVBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox, paperSizeHBox, pagesPerSheetHBox, marginsHBox, qualityHBox, scaleHBox, optionsHBox, buttonsHBox);
+    optionsVBox.setId("optionsVBox");
+    optionsVBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+    //optionsVBox.setMinWidth(600);
+    //Create BorderPane to hold all layouts
+    BorderPane root = new BorderPane();
+    root.setLeft(printPreview);
+    root.setCenter(optionsVBox);
+    root.setAlignment(printPreview, Pos.CENTER);
+    root.setAlignment(optionsVBox, Pos.CENTER);
     // Create a scene for the Print Page
-    printPageScene = new Scene(optionsVBox, 1700, 1000);
+    printPageScene = new Scene(root, 1000, 700);
+    printPageScene.getStylesheets().add("styles.css");
     // Set the scene of the stage
     primaryStage.setScene(printPageScene);
     // Set the title of the window
