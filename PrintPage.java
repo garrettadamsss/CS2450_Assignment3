@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -49,6 +51,7 @@ public class PrintPage extends Application
   private ComboBox<String> scaleComboBox = new ComboBox<>();
   private CheckBox headersAndFootersCheckBox = new CheckBox("Headers and footers");
   private CheckBox backgroundGraphicsCheckBox = new CheckBox("Background graphics");
+  private Button printButton;
 
   // Variables for Check Setting Screen
   private Label destinationLabel = new Label();
@@ -119,7 +122,7 @@ public class PrintPage extends Application
     paperSizeMap.put("Test", "Executive");
     pagesPerSheetMap.put("Test", "9");
     marginsMap.put("Test", "Minimum");
-    qualityMap.put("Test", "1,200 dpi");
+    qualityMap.put("Test", "1,150 dpi");
     scaleMap.put("Test", "Custom");
     headersAndFootersMap.put("Test", true);
     backgroundGraphicsMap.put("Test", true);
@@ -146,7 +149,9 @@ public class PrintPage extends Application
         backgroundGraphicsCheckBox.setSelected(backgroundGraphicsMap.get(presetName));
       }
     });
-    HBox presetHBox = new HBox(15, presetOptionLabel, presetComboBox);
+    presetComboBox.setPrefWidth(150);
+    HBox presetHBox = new HBox(77, presetOptionLabel, presetComboBox);
+    presetHBox.setAlignment(Pos.CENTER);
 
     // Destination option
     Label destinationOptionLabel = new Label("Destination");
@@ -156,20 +161,27 @@ public class PrintPage extends Application
         printerConnectionLabel.setText("Not connected");
         printerConnectionCircle.setRadius(5);
         printerConnectionCircle.setFill(Color.RED);
+        printButton.setId("");
       } else if (destinationComboBox.getValue() == "Printer 2") {
         printerConnectionLabel.setText("Connected");
         printerConnectionCircle.setRadius(5);
         printerConnectionCircle.setFill(Color.GREEN);
+        printButton.setId("print-button");
       } else if (destinationComboBox.getValue() == "Save as PDF") {
         printerConnectionLabel.setText("");
         printerConnectionCircle.setRadius(0);
       }
     });
     destinationComboBox.setValue("Printer 1");
+    destinationComboBox.setPrefWidth(150);
     printerConnectionCircle.setFill(Color.RED);
-    HBox destinationHBox = new HBox(15, destinationOptionLabel, destinationComboBox);
     HBox printerConnectionHBox = new HBox(5, printerConnectionCircle, printerConnectionLabel);
-    VBox printerVBox = new VBox(5, destinationHBox, printerConnectionHBox);
+    printerConnectionHBox.setAlignment(Pos.CENTER_LEFT);
+    VBox printerVBox = new VBox(5, destinationComboBox, printerConnectionHBox);
+    HBox destinationHBox = new HBox(50, destinationOptionLabel, printerVBox);
+    destinationHBox.setAlignment(Pos.CENTER);
+    
+    
 
     //Print preview
     FileInputStream inputStream = new FileInputStream("images/Capture.PNG");
@@ -182,59 +194,81 @@ public class PrintPage extends Application
     Label pagesOptionLabel = new Label("Pages");
     pagesComboBox.getItems().addAll("All", "Odd pages Only", "Even pages Only", "Custom");
     pagesComboBox.setValue("All");
-    HBox pagesHBox = new HBox(15, pagesOptionLabel, pagesComboBox);
+    pagesComboBox.setPrefWidth(150);
+    HBox pagesHBox = new HBox(80, pagesOptionLabel, pagesComboBox);
+    pagesHBox.setAlignment(Pos.CENTER);
 
     // Copies option
     Label copiesOptionLabel = new Label("Copies");
-    HBox copiesHBox = new HBox(15, copiesOptionLabel, copiesSpinner);
+    copiesSpinner.setPrefWidth(150);
+    HBox copiesHBox = new HBox(78, copiesOptionLabel, copiesSpinner);
+    copiesHBox.setAlignment(Pos.CENTER);
 
     // Layout option
     Label layoutOptionLabel = new Label("Layout");
     layoutComboBox.getItems().addAll("Portrait", "Landscape");
     layoutComboBox.setValue("Portrait");
-    HBox layoutHBox = new HBox(15, layoutOptionLabel, layoutComboBox);
+    layoutComboBox.setPrefWidth(150);
+    HBox layoutHBox = new HBox(77, layoutOptionLabel, layoutComboBox);
+    layoutHBox.setAlignment(Pos.CENTER);
 
     // Two-sided option
     Label twoSidedOptionLabel = new Label("Two-Sided");
-    HBox twoSidedHBox = new HBox(15, twoSidedOptionLabel, printOnBothSidesCheckBox);
+    printOnBothSidesCheckBox.setPrefWidth(200);
+    printOnBothSidesCheckBox.setPadding(new Insets(0, 0, 0, 49));
+    HBox twoSidedHBox = new HBox(8, twoSidedOptionLabel, printOnBothSidesCheckBox);
+    twoSidedHBox.setAlignment(Pos.CENTER);
 
     // Paper Size option
     Label paperSizeOptionLabel = new Label("Paper Size");
     paperSizeComboBox.getItems().addAll("Letter", "Legal", "Executive");
     paperSizeComboBox.setValue("Letter");
-    HBox paperSizeHBox = new HBox(15, paperSizeOptionLabel, paperSizeComboBox);
+    paperSizeComboBox.setPrefWidth(150);
+    HBox paperSizeHBox = new HBox(58, paperSizeOptionLabel, paperSizeComboBox);
+    paperSizeHBox.setAlignment(Pos.CENTER);
 
     // Pages per Sheet option
     Label pagesPerSheetOptionLabel = new Label("Pages per Sheet");
     pagesPerSheetComboBox.getItems().addAll("1", "2", "4", "9", "16");
     pagesPerSheetComboBox.setValue("1");
-    HBox pagesPerSheetHBox = new HBox(15, pagesPerSheetOptionLabel, pagesPerSheetComboBox);
+    pagesPerSheetComboBox.setPrefWidth(150);
+    HBox pagesPerSheetHBox = new HBox(28, pagesPerSheetOptionLabel, pagesPerSheetComboBox);
+    pagesPerSheetHBox.setAlignment(Pos.CENTER);
 
     // Margins option
     Label marginsOptionLabel = new Label("Margins");
     marginsComboBox.getItems().addAll("Default", "None", "Minimum", "Custom");
     marginsComboBox.setValue("Default");
-    HBox marginsHBox = new HBox(15, marginsOptionLabel, marginsComboBox);
+    marginsComboBox.setPrefWidth(150);
+    HBox marginsHBox = new HBox(72, marginsOptionLabel, marginsComboBox);
+    marginsHBox.setAlignment(Pos.CENTER);
 
     // Quality option
     Label qualityOptionLabel = new Label("Quality");
-    qualityComboBox.getItems().addAll("300 dpi", "600 dpi", "1,200 dpi");
+    qualityComboBox.getItems().addAll("300 dpi", "600 dpi", "1,150 dpi");
     qualityComboBox.setValue("600 dpi");
-    HBox qualityHBox = new HBox(15, qualityOptionLabel, qualityComboBox);
+    qualityComboBox.setPrefWidth(150);
+    HBox qualityHBox = new HBox(76, qualityOptionLabel, qualityComboBox);
+    qualityHBox.setAlignment(Pos.CENTER);
 
     // Scale option
     Label scaleOptionLabel = new Label("Scale");
     scaleComboBox.getItems().addAll("Default", "Custom");
     scaleComboBox.setValue("Default");
-    HBox scaleHBox = new HBox(15, scaleOptionLabel, scaleComboBox);
+    scaleComboBox.setPrefWidth(150);
+    HBox scaleHBox = new HBox(86, scaleOptionLabel, scaleComboBox);
+    scaleHBox.setAlignment(Pos.CENTER);
 
     // Options option
     Label optionsOptionLabel = new Label("Options");
     VBox checkBoxVBox = new VBox(5, headersAndFootersCheckBox, backgroundGraphicsCheckBox);
-    HBox optionsHBox = new HBox(15, optionsOptionLabel, checkBoxVBox);
+    checkBoxVBox.setPrefWidth(200);
+    checkBoxVBox.setPadding(new Insets(0, 0, 0, 47));
+    HBox optionsHBox = new HBox(28, optionsOptionLabel, checkBoxVBox);
+    optionsHBox.setAlignment(Pos.CENTER);
 
     // Buttons
-    Button printButton = new Button("Print");
+    printButton = new Button("Print");
     printButton.setOnAction(event -> {
       // Only go to next page if printer is connected
       if (printerConnectionLabel.getText() == "Connected") {
@@ -275,6 +309,7 @@ public class PrintPage extends Application
 
     });
     Button savePresetButton = new Button("Save Preset");
+    savePresetButton.getStyleClass().addAll("save-button");
     savePresetButton.setOnAction(event -> {
       // Change to the save preset page
       primaryStage.setScene(savePresetScene);
@@ -286,9 +321,12 @@ public class PrintPage extends Application
     });
     //Create HBox to hold lower buttons
     HBox buttonsHBox = new HBox(10, printButton, savePresetButton, printCancelButton);
+    buttonsHBox.setAlignment(Pos.CENTER);
 
     //Create VBox to contain all buttons
-    VBox optionsVBox = new VBox(10, presetHBox, printerVBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox, paperSizeHBox, pagesPerSheetHBox, marginsHBox, qualityHBox, scaleHBox, optionsHBox, buttonsHBox);
+    VBox optionsVBox = new VBox(20, presetHBox, destinationHBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox,
+        paperSizeHBox, pagesPerSheetHBox, marginsHBox, qualityHBox, scaleHBox, optionsHBox, buttonsHBox);
+    optionsVBox.setAlignment(Pos.CENTER);
     optionsVBox.setId("optionsVBox");
     optionsVBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
     //optionsVBox.setMinWidth(600);
@@ -320,6 +358,7 @@ public class PrintPage extends Application
         twoSidedLabel, optionsLabel);
     // Create buttons
     Button confirmButton = new Button("Confirm");
+    confirmButton.setId("confirm-button");
     confirmButton.setOnAction(event -> {
       // Change to the printing feedback page
       primaryStage.setScene(printingFeedbackScene);
@@ -348,6 +387,7 @@ public class PrintPage extends Application
     // Create the scene and VBox for the content of the scene
     VBox checkSettingsVBox = new VBox(10, checkSettingLabel, settingsVBox, moreSettingsVBox, confirmButtonsHBox);
     checkSettingsScene = new Scene(checkSettingsVBox, 1000, 500);
+    checkSettingsScene.getStylesheets().add("styles.css");
   }
 
   // Helper function to create the save preset screen
@@ -356,6 +396,7 @@ public class PrintPage extends Application
     HBox savePresetHBox = new HBox(10, savePresetLabel, presetTextField);
     // Buttons
     Button saveButton = new Button("Save");
+    saveButton.getStyleClass().addAll("save-button");
     saveButton.setOnAction(event -> {
       if (!presetTextField.getText().equals("")) {
         // Add the preset name to the combo box and save the settings in the hashmaps
@@ -383,6 +424,7 @@ public class PrintPage extends Application
     HBox savePresetButtonsHBox = new HBox(5, saveButton, cancelButton);
     VBox savePresetVBox = new VBox(savePresetHBox, savePresetButtonsHBox);
     savePresetScene = new Scene(savePresetVBox, 500, 400);
+    savePresetScene.getStylesheets().addAll("styles.css");
   }
 
   // Helper function to create the printing feedback screen
@@ -406,6 +448,7 @@ public class PrintPage extends Application
       primaryStage.close();
     });
     VBox printingFeedbackVBox = new VBox(10, printFeedBackHBox, doneButton);
-    printingFeedbackScene = new Scene(printingFeedbackVBox, 1000, 200);
+    printingFeedbackScene = new Scene(printingFeedbackVBox, 1000, 150);
+    printingFeedbackScene.getStylesheets().addAll("styles.css");
   }
 }

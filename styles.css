@@ -1,7 +1,13 @@
 .root {
-    -fx-background-color: dimgrey;
+  -fx-background-color: #d7d7d7;
 }
-#optionsVBox {
-
-    -fx-background-color: red;
+/* #optionsVBox {
+  -fx-background-color: red;
+} */
+#print-button,
+#confirm-button {
+  -fx-color: #7eb9ef;
+}
+.save-button {
+  -fx-color: #09ee04;
 }
