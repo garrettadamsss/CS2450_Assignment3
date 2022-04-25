@@ -32,7 +32,6 @@ public class PrintPage extends Application
   private Circle printerConnectionCircle = new Circle(5);
   private Label printerConnectionLabel = new Label("Not connected");
   private ComboBox<String> presetComboBox = new ComboBox<>();
-  private ComboBox<String> destinationComboBox = new ComboBox<>();
   private ComboBox<String> pagesComboBox = new ComboBox<>();
   private Spinner<Integer> copiesSpinner = new Spinner<>(1, 100, 1);
   private ComboBox<String> layoutComboBox = new ComboBox<>();
