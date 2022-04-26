@@ -444,7 +444,7 @@ public class PrintPage extends Application
     savePresetButtonsHBox.setAlignment(Pos.CENTER);
     VBox savePresetVBox = new VBox(25, savePresetHBox, savePresetButtonsHBox);
     savePresetVBox.setAlignment(Pos.CENTER);
-    savePresetScene = new Scene(savePresetVBox, 500, 400);
+    savePresetScene = new Scene(savePresetVBox, 400, 150);
     savePresetScene.getStylesheets().addAll("styles.css");
   }
 
