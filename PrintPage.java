@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -201,6 +202,11 @@ public class PrintPage extends Application
 
     ScrollPane leftSide = new ScrollPane(imagesVBox);
 
+    Button pageUpButton = new Button("/\\");
+    Button pageDownButton = new Button("\\/");
+    VBox pageButtonVBox = new VBox(10, pageUpButton, pageDownButton);
+    StackPane stackPane = new StackPane(leftSide, pageButtonVBox);
+
     // Pages option
     Label pagesOptionLabel = new Label("Pages");
     pagesComboBox.getItems().addAll("All", "Odd pages Only", "Even pages Only", "Custom");
@@ -356,9 +362,9 @@ public class PrintPage extends Application
 
     //Create BorderPane to hold all layouts
     BorderPane root = new BorderPane();
-    root.setLeft(leftSide);
+    root.setLeft(stackPane);
     root.setCenter(optionsVBox);
-    root.setAlignment(leftSide, Pos.CENTER);
+    root.setAlignment(stackPane, Pos.CENTER);
     root.setAlignment(optionsVBox, Pos.CENTER);
     // Create a scene for the Print Page
     printPageScene = new Scene(root, 1000, 700);
