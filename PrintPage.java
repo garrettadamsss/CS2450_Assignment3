@@ -230,6 +230,14 @@ public class PrintPage extends Application
     HBox twoSidedHBox = new HBox(8, twoSidedOptionLabel, printOnBothSidesCheckBox);
     twoSidedHBox.setAlignment(Pos.CENTER);
 
+    // More Settings
+    Label moreSettingsLabel = new Label("More Settings");
+    Label moreSettingsSymbolLabel = new Label("/\\");
+    moreSettingsSymbolLabel.setPrefWidth(150);
+    HBox moreSettingsHBox = new HBox(37, moreSettingsLabel, moreSettingsSymbolLabel);
+    moreSettingsHBox.setPadding(new Insets(25, 0, 15, 0));
+    moreSettingsHBox.setAlignment(Pos.CENTER);
+
     // Paper Size option
     Label paperSizeOptionLabel = new Label("Paper Size");
     paperSizeComboBox.getItems().addAll("Letter", "Legal", "Executive");
@@ -340,7 +348,7 @@ public class PrintPage extends Application
     buttonsHBox.setAlignment(Pos.CENTER);
 
     //Create VBox to contain all buttons
-    VBox optionsVBox = new VBox(20, presetHBox, destinationHBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox,
+    VBox optionsVBox = new VBox(20, presetHBox, destinationHBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox, moreSettingsHBox,
         paperSizeHBox, pagesPerSheetHBox, marginsHBox, qualityHBox, scaleHBox, optionsHBox, buttonsHBox);
     optionsVBox.setAlignment(Pos.CENTER);
     optionsVBox.setId("optionsVBox");
