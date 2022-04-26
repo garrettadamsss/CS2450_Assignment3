@@ -9,6 +9,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -180,8 +181,6 @@ public class PrintPage extends Application
     VBox printerVBox = new VBox(5, destinationComboBox, printerConnectionHBox);
     HBox destinationHBox = new HBox(50, destinationOptionLabel, printerVBox);
     destinationHBox.setAlignment(Pos.CENTER);
-    
-    
 
     //Print preview
     FileInputStream inputStream = new FileInputStream("images/Capture.PNG");
@@ -192,20 +191,15 @@ public class PrintPage extends Application
     inputStream = new FileInputStream("images/Capture2.PNG");
     Image image2 = images[1] = new Image(inputStream);
     ImageView pic2 = printPreview[1] = new ImageView(images[1]);
-    //printPreview.setFitHeight(700);
-    //printPreview.setFitWidth(600);
-    ScrollBar scroll = new ScrollBar();
-    scroll.setMin(0);
-    scroll.setOrientation(Orientation.VERTICAL);
-    scroll.setPrefHeight(700);
-    scroll.setPrefWidth(20);
+    pic1.setFitHeight(700);
+    pic1.setFitWidth(600);
+    pic2.setFitHeight(700);
+    pic2.setFitWidth(600);
+
     VBox imagesVBox = new VBox();
-    scroll.valueProperty().addListener(new ChangeListener<Number>() {
-      public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val){
-        imagesVBox.setLayoutY(-new_val.doubleValue());
-      }
-    });
-    HBox leftSide = new HBox(imagesVBox, scroll);
+    imagesVBox.getChildren().addAll(pic1, pic2);
+
+    ScrollPane leftSide = new ScrollPane(imagesVBox);
 
     // Pages option
     Label pagesOptionLabel = new Label("Pages");
@@ -356,7 +350,7 @@ public class PrintPage extends Application
     BorderPane root = new BorderPane();
     root.setLeft(leftSide);
     root.setCenter(optionsVBox);
-    root.setAlignment(imagesVBox, Pos.CENTER);
+    root.setAlignment(leftSide, Pos.CENTER);
     root.setAlignment(optionsVBox, Pos.CENTER);
     // Create a scene for the Print Page
     printPageScene = new Scene(root, 1000, 700);
