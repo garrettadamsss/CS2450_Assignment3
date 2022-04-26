@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -324,6 +323,7 @@ public class PrintPage extends Application
       primaryStage.setScene(savePresetScene);
     });
     Button printCancelButton = new Button("Cancel");
+    printCancelButton.getStyleClass().addAll("cancel-button");
     printCancelButton.setOnAction(event -> {
       // Close the window
       primaryStage.close();
@@ -387,6 +387,7 @@ public class PrintPage extends Application
 
     });
     Button confirmCancelButton = new Button("Cancel");
+    confirmCancelButton.getStyleClass().addAll("cancel-button");
     confirmCancelButton.setOnAction(event -> {
       // Go back to the print page
       primaryStage.setScene(printPageScene);
@@ -429,6 +430,7 @@ public class PrintPage extends Application
       primaryStage.setScene(printPageScene);
     });
     Button cancelButton = new Button("Cancel");
+    cancelButton.getStyleClass().addAll("cancel-button");
     cancelButton.setOnAction(event -> {
       primaryStage.setScene(printPageScene);
     });
@@ -442,24 +444,30 @@ public class PrintPage extends Application
   public void createPrintingFeedbackScreen(Stage primaryStage) {
     // Labels for the printing feedback screen
     Label fileHeadingLabel = new Label("File");
+    fileHeadingLabel.getStyleClass().addAll("bold-text");
     fileLabel = new Label("lorum ipsum.pdf");
     VBox fileVBox = new VBox(10, fileHeadingLabel, fileLabel);
     Label statusHeadingLabel = new Label("Status");
+    statusHeadingLabel.getStyleClass().addAll("bold-text");
     statusLabel = new Label("printing");
     VBox statusVBox = new VBox(10, statusHeadingLabel, statusLabel);
     Label pageHeadingLabel = new Label("Page");
+    pageHeadingLabel.getStyleClass().addAll("bold-text");
     pageLabel = new Label("0/2");
     VBox pageVBox = new VBox(10, pageHeadingLabel, pageLabel);
-    HBox printFeedBackHBox = new HBox(5, fileVBox, statusVBox, pageVBox);
+    HBox printFeedBackHBox = new HBox(50, fileVBox, statusVBox, pageVBox);
+    printFeedBackHBox.setAlignment(Pos.CENTER);
 
     // Buttons
     Button doneButton = new Button("Done");
+    doneButton.getStyleClass().addAll("done-button");
     doneButton.setOnAction(event -> {
       // Close the window
       primaryStage.close();
     });
-    VBox printingFeedbackVBox = new VBox(10, printFeedBackHBox, doneButton);
-    printingFeedbackScene = new Scene(printingFeedbackVBox, 1000, 150);
+    VBox printingFeedbackVBox = new VBox(25, printFeedBackHBox, doneButton);
+    printingFeedbackVBox.setAlignment(Pos.CENTER);
+    printingFeedbackScene = new Scene(printingFeedbackVBox, 500, 150);
     printingFeedbackScene.getStylesheets().addAll("styles.css");
   }
 }
