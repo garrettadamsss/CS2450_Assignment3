@@ -25,6 +25,8 @@ import javafx.scene.shape.Circle;
  */
 public class PrintPage extends Application
 {
+  // Preset stage
+  private Stage newWindow = new Stage();
   // All of the pages of the interface
   private Scene printPageScene = new Scene(new Label());
   private Scene savePresetScene = new Scene(new Label());
@@ -320,7 +322,10 @@ public class PrintPage extends Application
     savePresetButton.getStyleClass().addAll("save-button");
     savePresetButton.setOnAction(event -> {
       // Change to the save preset page
-      primaryStage.setScene(savePresetScene);
+      newWindow.setTitle("Presets");
+      newWindow.setScene(savePresetScene);
+      newWindow.show();
+
     });
     Button printCancelButton = new Button("Cancel");
     printCancelButton.getStyleClass().addAll("cancel-button");
@@ -354,6 +359,8 @@ public class PrintPage extends Application
     primaryStage.setTitle("Print Page");
     // Show the print page's window
     primaryStage.show();
+
+
   }
   
   // Helper function to create the check settings page
@@ -433,12 +440,12 @@ public class PrintPage extends Application
         headersAndFootersMap.put(presetName, headersAndFootersCheckBox.isSelected());
         backgroundGraphicsMap.put(presetName, backgroundGraphicsCheckBox.isSelected());
       }
-      primaryStage.setScene(printPageScene);
+      newWindow.close();
     });
     Button cancelButton = new Button("Cancel");
     cancelButton.getStyleClass().addAll("cancel-button");
     cancelButton.setOnAction(event -> {
-      primaryStage.setScene(printPageScene);
+      newWindow.close();
     });
     HBox savePresetButtonsHBox = new HBox(15, saveButton, cancelButton);
     savePresetButtonsHBox.setAlignment(Pos.CENTER);
