@@ -323,6 +323,7 @@ public class PrintPage extends Application
       primaryStage.setScene(savePresetScene);
     });
     Button printCancelButton = new Button("Cancel");
+    printCancelButton.getStyleClass().addAll("cancel-button");
     printCancelButton.setOnAction(event -> {
       // Close the window
       primaryStage.close();
@@ -386,6 +387,7 @@ public class PrintPage extends Application
 
     });
     Button confirmCancelButton = new Button("Cancel");
+    confirmCancelButton.getStyleClass().addAll("cancel-button");
     confirmCancelButton.setOnAction(event -> {
       // Go back to the print page
       primaryStage.setScene(printPageScene);
@@ -428,6 +430,7 @@ public class PrintPage extends Application
       primaryStage.setScene(printPageScene);
     });
     Button cancelButton = new Button("Cancel");
+    cancelButton.getStyleClass().addAll("cancel-button");
     cancelButton.setOnAction(event -> {
       primaryStage.setScene(printPageScene);
     });

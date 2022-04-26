@@ -1,8 +1,15 @@
 .root {
   -fx-background-color: #d7d7d7;
 }
+.button {
+  -fx-font-weight: bold;
+}
+.cancel-button {
+  -fx-color: #c4c4c4;
+}
 #not-connected {
-  -fx-color: #d7d7d7
+  -fx-text-fill: #7e7777;
+  -fx-color: #c4c4c4;
 }
 #print-button,
 #confirm-button {
