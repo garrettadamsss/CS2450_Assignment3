@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -201,6 +202,11 @@ public class PrintPage extends Application
 
     ScrollPane leftSide = new ScrollPane(imagesVBox);
 
+    Button pageUpButton = new Button("/\\");
+    Button pageDownButton = new Button("\\/");
+    VBox pageButtonVBox = new VBox(10, pageUpButton, pageDownButton);
+    StackPane stackPane = new StackPane(leftSide, pageButtonVBox);
+
     // Pages option
     Label pagesOptionLabel = new Label("Pages");
     pagesComboBox.getItems().addAll("All", "Odd pages Only", "Even pages Only", "Custom");
@@ -229,6 +235,14 @@ public class PrintPage extends Application
     printOnBothSidesCheckBox.setPadding(new Insets(0, 0, 0, 49));
     HBox twoSidedHBox = new HBox(8, twoSidedOptionLabel, printOnBothSidesCheckBox);
     twoSidedHBox.setAlignment(Pos.CENTER);
+
+    // More Settings
+    Label moreSettingsLabel = new Label("More Settings");
+    Label moreSettingsSymbolLabel = new Label("/\\");
+    moreSettingsSymbolLabel.setPrefWidth(150);
+    HBox moreSettingsHBox = new HBox(37, moreSettingsLabel, moreSettingsSymbolLabel);
+    moreSettingsHBox.setPadding(new Insets(25, 0, 15, 0));
+    moreSettingsHBox.setAlignment(Pos.CENTER);
 
     // Paper Size option
     Label paperSizeOptionLabel = new Label("Paper Size");
@@ -340,7 +354,7 @@ public class PrintPage extends Application
     buttonsHBox.setAlignment(Pos.CENTER);
 
     //Create VBox to contain all buttons
-    VBox optionsVBox = new VBox(20, presetHBox, destinationHBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox,
+    VBox optionsVBox = new VBox(20, presetHBox, destinationHBox, pagesHBox, copiesHBox, layoutHBox, twoSidedHBox, moreSettingsHBox,
         paperSizeHBox, pagesPerSheetHBox, marginsHBox, qualityHBox, scaleHBox, optionsHBox, buttonsHBox);
     optionsVBox.setAlignment(Pos.CENTER);
     optionsVBox.setId("optionsVBox");
@@ -348,9 +362,9 @@ public class PrintPage extends Application
 
     //Create BorderPane to hold all layouts
     BorderPane root = new BorderPane();
-    root.setLeft(leftSide);
+    root.setLeft(stackPane);
     root.setCenter(optionsVBox);
-    root.setAlignment(leftSide, Pos.CENTER);
+    root.setAlignment(stackPane, Pos.CENTER);
     root.setAlignment(optionsVBox, Pos.CENTER);
     // Create a scene for the Print Page
     printPageScene = new Scene(root, 1000, 700);
