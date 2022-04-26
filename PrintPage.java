@@ -4,8 +4,11 @@ import java.util.HashMap;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -17,12 +20,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
 
 /**
  * Print Page
@@ -161,7 +158,7 @@ public class PrintPage extends Application
         printerConnectionLabel.setText("Not connected");
         printerConnectionCircle.setRadius(5);
         printerConnectionCircle.setFill(Color.RED);
-        printButton.setId("");
+        printButton.setId("not-connected");
       } else if (destinationComboBox.getValue() == "Printer 2") {
         printerConnectionLabel.setText("Connected");
         printerConnectionCircle.setRadius(5);
@@ -172,6 +169,7 @@ public class PrintPage extends Application
         printerConnectionCircle.setRadius(0);
       }
     });
+
     destinationComboBox.setValue("Printer 1");
     destinationComboBox.setPrefWidth(150);
     printerConnectionCircle.setFill(Color.RED);
@@ -187,9 +185,19 @@ public class PrintPage extends Application
     FileInputStream inputStream = new FileInputStream("images/Capture.PNG");
     Image image = new Image(inputStream);
     ImageView printPreview = new ImageView(image);
-    //printPreview.setPreserveRatio(true);
     printPreview.setFitHeight(700);
     printPreview.setFitWidth(600);
+    ScrollBar scroll = new ScrollBar();
+    scroll.setMin(0);
+    scroll.setOrientation(Orientation.VERTICAL);
+    scroll.setPrefHeight(700);
+    scroll.setPrefWidth(20);
+    VBox images = new VBox(printPreview);
+    scroll.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
+      images.setLayoutY(-new_val.doubleValue());
+    });
+    HBox leftSide = new HBox(images, scroll);
+
     // Pages option
     Label pagesOptionLabel = new Label("Pages");
     pagesComboBox.getItems().addAll("All", "Odd pages Only", "Even pages Only", "Custom");
@@ -269,6 +277,7 @@ public class PrintPage extends Application
 
     // Buttons
     printButton = new Button("Print");
+    printButton.setId("not-connected");
     printButton.setOnAction(event -> {
       // Only go to next page if printer is connected
       if (printerConnectionLabel.getText() == "Connected") {
@@ -329,10 +338,10 @@ public class PrintPage extends Application
     optionsVBox.setAlignment(Pos.CENTER);
     optionsVBox.setId("optionsVBox");
     optionsVBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-    //optionsVBox.setMinWidth(600);
+
     //Create BorderPane to hold all layouts
     BorderPane root = new BorderPane();
-    root.setLeft(printPreview);
+    root.setLeft(leftSide);
     root.setCenter(optionsVBox);
     root.setAlignment(printPreview, Pos.CENTER);
     root.setAlignment(optionsVBox, Pos.CENTER);
@@ -386,6 +395,8 @@ public class PrintPage extends Application
     HBox confirmButtonsHBox = new HBox(10, confirmButton, confirmCancelButton);
     // Create the scene and VBox for the content of the scene
     VBox checkSettingsVBox = new VBox(10, checkSettingLabel, settingsVBox, moreSettingsVBox, confirmButtonsHBox);
+    //BorderPane root1 = new BorderPane();
+    //root1.setCenter(checkSettingsVBox);
     checkSettingsScene = new Scene(checkSettingsVBox, 1000, 500);
     checkSettingsScene.getStylesheets().add("styles.css");
   }
