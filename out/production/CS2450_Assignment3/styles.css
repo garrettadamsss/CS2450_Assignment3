@@ -22,7 +22,3 @@
 .bold-text {
   -fx-font-weight: bold;
 }
-.navigation-buttons {
-  -fx-background-color: #2b2a2bdb;
-  -fx-text-fill: #ffffff;
-}
