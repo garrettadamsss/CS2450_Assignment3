@@ -11,3 +11,6 @@
 .save-button {
   -fx-color: #09ee04;
 }
+.bold-text {
+  -fx-font-weight: bold;
+}
