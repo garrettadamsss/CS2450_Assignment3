@@ -411,6 +411,7 @@ public class PrintPage extends Application
   public void createSavePresetScreen(Stage primaryStage) {
     Label savePresetLabel = new Label("Preset Name:");
     HBox savePresetHBox = new HBox(10, savePresetLabel, presetTextField);
+    savePresetHBox.setAlignment(Pos.CENTER);
     // Buttons
     Button saveButton = new Button("Save");
     saveButton.getStyleClass().addAll("save-button");
@@ -439,8 +440,10 @@ public class PrintPage extends Application
     cancelButton.setOnAction(event -> {
       primaryStage.setScene(printPageScene);
     });
-    HBox savePresetButtonsHBox = new HBox(5, saveButton, cancelButton);
-    VBox savePresetVBox = new VBox(savePresetHBox, savePresetButtonsHBox);
+    HBox savePresetButtonsHBox = new HBox(15, saveButton, cancelButton);
+    savePresetButtonsHBox.setAlignment(Pos.CENTER);
+    VBox savePresetVBox = new VBox(25, savePresetHBox, savePresetButtonsHBox);
+    savePresetVBox.setAlignment(Pos.CENTER);
     savePresetScene = new Scene(savePresetVBox, 500, 400);
     savePresetScene.getStylesheets().addAll("styles.css");
   }
