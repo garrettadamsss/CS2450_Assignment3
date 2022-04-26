@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -184,20 +185,27 @@ public class PrintPage extends Application
 
     //Print preview
     FileInputStream inputStream = new FileInputStream("images/Capture.PNG");
-    Image image = new Image(inputStream);
-    ImageView printPreview = new ImageView(image);
-    printPreview.setFitHeight(700);
-    printPreview.setFitWidth(600);
+    Image[] images = new Image[2];
+    ImageView[] printPreview = new ImageView[2];
+    Image image1 = images[0] = new Image(inputStream);
+    ImageView pic1 = printPreview[0] = new ImageView(images[0]);
+    inputStream = new FileInputStream("images/Capture2.PNG");
+    Image image2 = images[1] = new Image(inputStream);
+    ImageView pic2 = printPreview[1] = new ImageView(images[1]);
+    //printPreview.setFitHeight(700);
+    //printPreview.setFitWidth(600);
     ScrollBar scroll = new ScrollBar();
     scroll.setMin(0);
     scroll.setOrientation(Orientation.VERTICAL);
     scroll.setPrefHeight(700);
     scroll.setPrefWidth(20);
-    VBox images = new VBox(printPreview);
-    scroll.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
-      images.setLayoutY(-new_val.doubleValue());
+    VBox imagesVBox = new VBox();
+    scroll.valueProperty().addListener(new ChangeListener<Number>() {
+      public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val){
+        imagesVBox.setLayoutY(-new_val.doubleValue());
+      }
     });
-    HBox leftSide = new HBox(images, scroll);
+    HBox leftSide = new HBox(imagesVBox, scroll);
 
     // Pages option
     Label pagesOptionLabel = new Label("Pages");
@@ -348,7 +356,7 @@ public class PrintPage extends Application
     BorderPane root = new BorderPane();
     root.setLeft(leftSide);
     root.setCenter(optionsVBox);
-    root.setAlignment(printPreview, Pos.CENTER);
+    root.setAlignment(imagesVBox, Pos.CENTER);
     root.setAlignment(optionsVBox, Pos.CENTER);
     // Create a scene for the Print Page
     printPageScene = new Scene(root, 1000, 700);
