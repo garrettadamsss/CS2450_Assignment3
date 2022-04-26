@@ -4,7 +4,8 @@
 .button {
   -fx-font-weight: bold;
 }
-.cancel-button {
+.cancel-button,
+.done-button {
   -fx-color: #c4c4c4;
 }
 #not-connected {

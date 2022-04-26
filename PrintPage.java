@@ -460,6 +460,7 @@ public class PrintPage extends Application
 
     // Buttons
     Button doneButton = new Button("Done");
+    doneButton.getStyleClass().addAll("done-button");
     doneButton.setOnAction(event -> {
       // Close the window
       primaryStage.close();
