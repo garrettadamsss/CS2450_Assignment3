@@ -360,10 +360,11 @@ public class PrintPage extends Application
   public void createCheckSettingsPage(Stage primaryStage) {
     // Create Title Label
     Label checkSettingLabel = new Label("Are these settings correct?");
+    checkSettingLabel.setPadding(new Insets(0, 0, 15, 0));
     // Create VBox for all the labels for the settings
-    VBox settingsVBox = new VBox(5, destinationLabel, pagesLabel, copiesLabel, layoutLabel);
+    VBox settingsVBox = new VBox(10, destinationLabel, pagesLabel, copiesLabel, layoutLabel);
     // Create VBox for all the labels for more settings
-    VBox moreSettingsVBox = new VBox(5, paperSizeLabel, pagesPerSheetLabel, marginsLabel, qualityLabel, scaleLabel,
+    VBox moreSettingsVBox = new VBox(10, paperSizeLabel, pagesPerSheetLabel, marginsLabel, qualityLabel, scaleLabel,
         twoSidedLabel, optionsLabel);
     // Create buttons
     Button confirmButton = new Button("Confirm");
@@ -394,11 +395,15 @@ public class PrintPage extends Application
     });
     // Create HBox for the buttons
     HBox confirmButtonsHBox = new HBox(10, confirmButton, confirmCancelButton);
+    confirmButtonsHBox.setPadding(new Insets(20, 0, 0, 0));
+    confirmButtonsHBox.setAlignment(Pos.CENTER);
     // Create the scene and VBox for the content of the scene
     VBox checkSettingsVBox = new VBox(10, checkSettingLabel, settingsVBox, moreSettingsVBox, confirmButtonsHBox);
-    //BorderPane root1 = new BorderPane();
-    //root1.setCenter(checkSettingsVBox);
-    checkSettingsScene = new Scene(checkSettingsVBox, 1000, 500);
+    checkSettingsVBox.setAlignment(Pos.CENTER);
+    checkSettingsVBox.setPadding(new Insets(50, 100, 50, 100));
+    checkSettingsVBox.setId("confirmation");
+    BorderPane root1 = new BorderPane(checkSettingsVBox);
+    checkSettingsScene = new Scene(root1, 500, 500);
     checkSettingsScene.getStylesheets().add("styles.css");
   }
 

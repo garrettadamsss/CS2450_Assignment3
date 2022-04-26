@@ -1,16 +1,13 @@
 .root {
   -fx-background-color: #d7d7d7;
 }
-.button {
-  -fx-font-weight: bold;
-}
 .cancel-button,
 .done-button {
-  -fx-color: #c4c4c4;
+    -fx-color: #c4c4c4;
 }
 #not-connected {
-  -fx-text-fill: #7e7777;
   -fx-color: #c4c4c4;
+  -fx-text-fill: #7e7777;
 }
 #print-button,
 #confirm-button {
@@ -19,6 +16,6 @@
 .save-button {
   -fx-color: #09ee04;
 }
-.bold-text {
-  -fx-font-weight: bold;
+#confirmation {
+  -fx-font-size: 12;
 }
